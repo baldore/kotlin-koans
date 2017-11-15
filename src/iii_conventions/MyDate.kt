@@ -19,3 +19,11 @@ enum class TimeInterval {
 }
 
 class DateRange(val start: MyDate, val endInclusive: MyDate)
+
+// Solution with operator function
+operator fun DateRange.contains(d: MyDate): Boolean {
+    return start < d && d <= endInclusive
+}
+
+// Solution with ClosedRange interface
+// class DateRange(override val start: MyDate, override val endInclusive: MyDate) : ClosedRange<MyDate>
