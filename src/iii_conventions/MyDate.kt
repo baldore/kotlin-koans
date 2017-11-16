@@ -10,13 +10,24 @@ data class MyDate(val year: Int, val month: Int, val dayOfMonth: Int) : Comparab
     }
 }
 
-operator fun MyDate.rangeTo(other: MyDate): DateRange = DateRange(this, other)
+operator fun MyDate.plus(timeInterval: RepeatedTimeInterval): MyDate =
+    addTimeIntervals(timeInterval.ti, timeInterval.n)
+
+operator fun MyDate.plus(timeInterval: TimeInterval): MyDate =
+    addTimeIntervals(timeInterval, 1)
+
+operator fun MyDate.rangeTo(other: MyDate): DateRange =
+    DateRange(this, other)
+
+data class RepeatedTimeInterval(val ti: TimeInterval, val n: Int)
 
 enum class TimeInterval {
     DAY,
     WEEK,
     YEAR
 }
+
+operator fun TimeInterval.times(timesNumber: Int): RepeatedTimeInterval = RepeatedTimeInterval(this, timesNumber)
 
 class DateRange(val start: MyDate, val endInclusive: MyDate): Iterable<MyDate> {
     override fun iterator(): Iterator<MyDate> = DateIterator(this)
